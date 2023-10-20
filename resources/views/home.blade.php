@@ -15,9 +15,44 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    <!-- Add buttons with updated labels and CSS styles -->
+                    <div class="mt-4">
+                        <a href="{{ route('cars.index') }}" class="btn btn-primary custom-button">
+                            View Cars
+                        </a>
+                        <a href="{{ route('drivers.index') }}" class="btn btn-primary custom-button">
+                            View Drivers
+                        </a>
+                        <a href="{{ route('rides.index') }}" class="btn btn-primary custom-button">
+                            View Rides
+                        </a>
+                        <a href="{{ route('settings') }}" class="btn btn-primary custom-button">
+                            Settings
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom CSS styles for the buttons */
+    .custom-button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .custom-button:hover {
+        background-color: #2980b9;
+    }
+</style>
 @endsection

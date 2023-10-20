@@ -19,6 +19,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function isAdmin()
+    {
+        return $this->role === 'admin'; // Adjust this based on your role implementation
+    }
+
     public function rides()
     {
         // return $this->hasMany(Ride::class);
@@ -40,4 +45,5 @@ class User extends Authenticatable
     }
 
     // Add other methods as needed...
+    
 }
