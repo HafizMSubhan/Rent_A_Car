@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-    <title>Rent A Car</title>
+    <title>RaC</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="css/jquery.fancybox.min.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
@@ -22,32 +21,80 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* Header background and text colors */
+        /* Add your custom CSS here */
+
+        /* Navbar styles */
         .site-navbar {
-            background: linear-gradient(to right, #4286f4, #49f4d7);
-            color: #333; /* Text color in the header */
-            padding: 5px 20px; /* Add padding to increase the height of the header */
+            background: linear-gradient(135deg, #0D1137, #384C70, #0D1137);
+            background-size: 200% 200%;
+            animation: gradientAnimation 6s infinite;
+            padding: 10px 20px; /* Adjust padding */
+            margin-bottom: 0; /* Remove margin to make full-width */
         }
-        /* Reduce the width of the header */
-        .site-navbar .container {
-            max-width: 960px; /* Adjust the maximum width as needed */
+
+        .site-navbar .nav-item {
+            margin-right: 10px;
         }
-        /* Center the content in the header */
-        .site-navbar .col-3 {
-            display: flex;
-            align-items: center;
+
+        .site-navbar-brand-text {
+          color: white;
+          font-weight: bold;
         }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
         /* Button styles */
         .btn-primary {
-            background-color: #f46942;
-            border-color: #f46942;
-            color: #fff; /* Text color in the buttons */
+          background-color: #007BFF; /* Blue color */
+        color: #fff; /* Text color */
+        border: none;
         }
+
         .btn-primary:hover {
-            background-color: #ff8e6b; /* Lighter shade when hovering */
-            border-color: #ff8e6b;
+          background-color: #0056b3; /* Darker blue color on hover */
+        }
+
+        .btn-secondary {
+          background-color: #FF5733; /* Orange color */
+        color: #fff; /* Text color */
+        border: none;
+        }
+
+        .btn-secondary:hover {
+          background-color: #D8410D; /* Darker orange color on hover */
+        }
+
+        /* Dropdown menu styles */
+        .dropdown-menu a {
+          color: #000; /* Text color for dropdown items */
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #D8410D;
+            color: #fff;
+        }
+
+        .dropdown-menu .btn-logout {
+            background-color: #FF5733;
+            border: none;
+        }
+
+        .dropdown-menu .btn-logout:hover {
+            background-color: #D8410D;
         }
     </style>
+</head>
+
 
   </head>
 
@@ -74,7 +121,7 @@
 
             <div class="col-3">
               <div class="site-logo">
-              <a href="{{ url('/') }}" class="nav-link"><strong>Rent A Car</strong></a>
+              <a href="{{ url('/') }}" class="nav-link"><strong>RaC</strong></a>
               </div>
             </div>
 

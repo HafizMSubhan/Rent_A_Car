@@ -45,4 +45,9 @@ class RegisterController extends Controller
             'remember_token' => Str::random(10),
         ]);
     }
+
+    protected function registered()
+    {
+        return redirect('/')->with('success', 'Registration successful! Please log in.');
+    }
 }

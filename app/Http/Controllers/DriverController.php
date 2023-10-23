@@ -17,11 +17,11 @@ class DriverController extends Controller
         return view('drivers.index', compact('drivers'));
     }
     public function create()
-    {
-        $unassignedCars = Car::doesntHave('driver')->get(); // Fetch cars that don't have a driver
+{
+    $unassignedCars = Car::doesntHave('driver')->get(); // Fetch cars that don't have a driver
 
-        return view('drivers.create', compact('unassignedCars'));
-    }
+    return view('drivers.create', compact('unassignedCars'));
+}
 
     public function getAvailableCars()
     {

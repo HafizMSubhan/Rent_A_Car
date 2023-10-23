@@ -126,4 +126,43 @@ class CarController extends Controller
         $car->delete();
         return redirect()->route('cars.index')->with('success', 'Car deleted successfully.');
     }
+    public function getAvailableCars(Request $request) {
+        // Retrieve the data sent via the AJAX request
+        $persons = $request->input('persons');
+        $luggage = $request->input('luggage');
+        $totalDistance = $request->input('total_distance');
+        $totalPrice = $request->input('totalPrice'); // Include the total price
+    
+        // Store the data in the session
+        $request->session()->put('persons', $persons);
+        $request->session()->put('luggage', $luggage);
+        $request->session()->put('total_distance', $totalDistance);
+        $request->session()->put('totalPrice', $totalPrice); // Store the total price in the session
+    
+        // Retrieve all available cars from the database
+        $availableCars = Car::where('person_capacity', '>=', $persons)
+            ->where('luggage_capacity', '>=', $luggage)
+            ->get();
+    
+        // Return the results as JSON
+        return response()->json(['cars' => $availableCars]);
+    }
+
+    public function getCarDetails(Request $request)
+{
+    try {
+        $carId = $request->input('car_id');
+        $car = Car::find($carId);
+
+        if (!$car) {
+            return response()->json(['error' => 'Car not found'], 404);
+        }
+
+        return response()->json(['car' => $car]);
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        \Log::error('Error in getCarDetails: ' . $e->getMessage());
+        return response()->json(['error' => 'Internal Server Error'], 500);
+    }
+}
 }

@@ -123,6 +123,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/') }}" style="color: #fff;">{{ __('Home') }}</a>
                 </li>
+                @if (Auth::check() && Auth::user()->isAdmin())
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cars.index') }}" style="color: #fff;">{{ __('Cars') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('drivers.index') }}" style="color: #fff;">{{ __('Drivers') }}</a>
+                </li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('rides.index') }}" style="color: #fff;">{{ __('Rides') }}</a>
+                </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('about') }}" style="color: #fff;">{{ __('About') }}</a>
                 </li>

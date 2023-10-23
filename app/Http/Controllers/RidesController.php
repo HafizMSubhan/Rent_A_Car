@@ -20,38 +20,14 @@ class RidesController extends Controller
 {
     // Fetch car data from your database (you may need to customize this query)
     $cars = Car::all(); // Retrieve only three cars
+    $car = Car::all();
 
     // Pass the car data to the view
     return view('rides.create', [
         'cars' => $cars, // Pass the $cars variable to the view
+        'car' => $car, // Add this line to pass the $car variable to the view
+
         'pricingRate' => 10, // Replace with your actual pricing rate
-    ]);
-}
-public function showRideDetails(Request $request)
-{
-    $car_id = $request->input('car_id');
-    $persons = $request->input('persons');
-    $luggage = $request->input('luggage');
-    $dateTime = $request->input('date_time');
-    $totalDistance = $request->input('total_distance');
-    $totalPrice = $request->input('totalPrice');
-
-    // Fetch car details based on $carId
-    $car = Car::find($car_id);
-
-    if (!$car) {
-        // Handle the case where the car is not found
-        // You can redirect the user or show an error message
-    }
-
-    return view('ride-details', [
-        'car_id' => $car_id,
-        'persons' => $persons,
-        'luggage' => $luggage,
-        'date_time' => $dateTime,
-        'total_distance' => $totalDistance,
-        'totalPrice' => $totalPrice,
-        'car' => $car, // Pass the car details
     ]);
 }
 
@@ -142,6 +118,17 @@ public function store(Request $request)
         return response()->json(['cars' => $availableCars]);
     }  
 
-    
-    
+
+public function getCarDetails(Request $request)
+    {
+        $carId = $request->input('car_id');
+        $car = Car::find($carId);
+
+        if (!$car) {
+            return response()->json(['error' => 'Car not found'], 404);
+        }
+
+        return response()->json(['car' => $car]);
+    }
+
 }

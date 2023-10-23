@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>Rides List</h2>
+        <h2 style="font-size: 24px;">Rides List</h2>
         <a href="{{ route('rides.create') }}" class="btn btn-primary" style="float: right;">Book a Ride</a>
     </div>
     
     <div class="table-responsive">
-        <table id="rides-table" class="table table-bordered table-striped">
+        <table id="rides-table" class="display">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -45,15 +45,24 @@
 </div>
 <style>
     /* Custom CSS styles for the table and buttons */
-    .table {
-        width: 100%;
-    }
-    .table th, .table td {
-        text-align: center; /* Center-align table content */
-    }
-    .btn {
-        margin: 5px;
-    }
+    table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: #fff;
+        }
+        td {
+            border: 1px solid #ccc;
+        }
+        .btn {
+            margin: 5px;
+        }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">

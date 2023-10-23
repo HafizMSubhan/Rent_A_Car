@@ -50,6 +50,12 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="row" id="selected-car-details" style="display: none;">
+        {{-- Selected car details will be displayed here --}}
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -65,7 +71,7 @@
             // Calculate the total price based on the total distance and pricing rate
             var pricingRate = {{ $pricingRate }}; // You should have this value available
             var totalPrice = parseFloat(totalDistance) * pricingRate;
-            $('#totalprice').val(totalPrice.toFixed(2));
+            $('#totalPrice').val(totalPrice.toFixed(2));
         }
         
         function fetchAvailableCars() {
@@ -98,47 +104,27 @@
                         // Iterate through the available cars and create cards
                         $.each(cars, function (index, car) {
                             var carCard = `
-                            @foreach($cars as $car)
-                            <div class="col-md-4">
-                                <div class="card mb-4">
-                                    <div id="carImages-{$car_id}" class="carousel slide" data-ride="carousel">
-                                        <div class="carousel-inner">
-                                            @foreach(json_decode($car->pictures) as $index => $picture)
-                                                <div class="carousel-item{{ $index === 0 ? ' active' : '' }}">
-                                                    <img src="{{ asset($picture) }}" class="d-block w-100" alt="Car Picture">
-                                                </div>
-                                            @endforeach
+                                <div class="col-md-4">
+                                    <div class="card mb-4" style='text-align:center;'>
+                                        <!-- Car card content -->
+                                        <div id="carImages-${car.id}" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                <!-- Car images here -->
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">${car.name}</h5>
+                                            <p class="card-text">Model: ${car.model}</p>
+                                            <p class="card-text">Number: ${car.number}</p>
+                                            <p class="card-text">Luggage Capacity: ${car.luggage_capacity} items</p>
+                                            <p class="card-text">Person Capacity: ${car.person_capacity} people</p>
+                                            <button class="btn btn-primary select-car-button" data-car-id="${car.id}">Select Car</button>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $car->name }}</h5>
-                                        <p class="card-text">Model: {{ $car->model }}</p>
-                                        <p class="card-text">Number: {{ $car->number }}</p>
-                                        <p class="card-text">Luggage Capacity: {{ $car->luggage_capacity }} items</p>
-                                        <p class="card-text">Person Capacity: {{ $car->person_capacity }} people</p>
-                                        <p class="card-text">Price: {{ $car->price }}</p>
-                                        <button class="btn btn-primary select-car-button" data-car_d="{$car_id}">Select Car</button>
-                                    </div>
                                 </div>
-                            </div>
-                            @endforeach
-
                             `;
 
                             carContainer.append(carCard);
-
-                            // Load and display car pictures
-                            var carImagesCarousel = $(`#carImages-${car_id} .carousel-inner`);
-                            carImagesCarousel.empty();
-
-                            car.pictures.forEach(function (picture, index) {
-                                var pictureItem = `
-                                    <div class="carousel-item${index === 0 ? ' active' : ''}">
-                                        <img src="${picture}" class="d-block w-100" alt="Car Picture">
-                                    </div>
-                                `;
-                                carImagesCarousel.append(pictureItem);
-                            });
                         });
                     }
                 },
@@ -165,26 +151,40 @@
 
     // Add event listener for car selection
     $(document).on('click', '.select-car-button', function () {
-        var car_id = $(this).data('car_id');
+        console.log('Select Car button clicked'); // Debugging statement
+        var carId = $(this).data('car-id');
+        console.log('Car ID:', carId); // Debugging statement
+    var carId = $(this).data('car-id');
+    if (carId) {
+        // Send an AJAX request to get car details
+        $.ajax({
+            url: '{{ route('get.car.details') }}',
+            method: 'POST',
+            data: { car_id: carId },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                if (data.hasOwnProperty('car')) {
+                    var car = data.car;
 
-        // Redirect to the ride details page with the selected car and user data
-        var persons = $('#persons').val();
-        var luggage = $('#luggage').val();
-        var totalDistance = $('#total_distance').val();
-        var date_time = encodeURIComponent($('#date_time').val());
-        var totalPrice = $('#totalPrice').val();
-
-        // Construct the URL for the ride details page
-        var rideDetailsURL = '{{ route('show.ride.details') }}' + 
-        '?car_id=' + car_id +
-        '&persons=' + persons +
-        '&luggage=' + luggage +
-        '&date_time=' + date_time +
-        '&total_distance=' + totalDistance +
-        '&totalPrice=' + totalPrice;
-
-        // Redirect to the ride details page
-        window.location.href = rideDetailsURL;
-    });
+                    // Redirect to the selected_car route with the selected car details
+                    window.location.href = '{{ route('selected_car') }}' +
+                        '?car_id=' + car.id +
+                        '&name=' + car.name +
+                        '&model=' + car.model +
+                        '&number=' + car.number +
+                        '&luggage_capacity=' + car.luggage_capacity +
+                        '&person_capacity=' + car.person_capacity +
+                        '&selectedCarPrice=' + selectedCarPrice.toFixed(2);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle the error, if any
+                console.error("Error: " + error);
+            }
+        });
+    }
+});
 </script>
 @endsection

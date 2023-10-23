@@ -20,16 +20,16 @@
                     <div class="mt-4">
                         <a href="{{ route('cars.index') }}" class="btn btn-primary custom-button">
                             View Cars
-                        </a>
+                        </a><br>
                         <a href="{{ route('drivers.index') }}" class="btn btn-primary custom-button">
                             View Drivers
-                        </a>
+                        </a><br>
                         <a href="{{ route('rides.index') }}" class="btn btn-primary custom-button">
                             View Rides
-                        </a>
+                        </a><br>
                         <a href="{{ route('settings') }}" class="btn btn-primary custom-button">
                             Settings
-                        </a>
+                        </a><br>
                     </div>
                 </div>
             </div>

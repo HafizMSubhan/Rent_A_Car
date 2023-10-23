@@ -29,26 +29,30 @@ Auth::routes();
 Route::middleware(['auth', 'admin'])->group(function () {
 
 Route::resource('drivers', 'App\Http\Controllers\DriverController');
-Route::get('/get-available-cars', 'DriverController@getAvailableCars')->name('get.available.cars');
 
 Route::resource('cars', 'App\Http\Controllers\CarController');
 
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+
 });
-
-
 
 Route::resource('rides', 'App\Http\Controllers\RidesController');
 
-Route::get('/get-available-cars', [RidesController::class, 'getAvailableCars'])->name('get.available.cars');
-Route::post('/get-available-cars', [RidesController::class, 'getAvailableCars'])->name('get.available.cars');
-Route::get('/ride-details', 'App\Http\Controllers\RidesController@showRideDetails')->name('show.ride.details');
+Route::post('/get-car-details', 'App\Http\Controllers\CarController@getCarDetails')->name('get.car.details');
+
+Route::post('/get-available-cars', 'App\Http\Controllers\CarController@getAvailableCars')->name('get.available.cars');
+
+Route::get('/selected_car', function () {
+    return view('selected_car', [
+        'car' => (object)request()->all(),
+    ]);
+})->name('selected_car');
 
 
-Route::get('get/available/drivers', 'RidesController@getAvailableDrivers')->name('get.available.drivers');
 
-Route::put('/rides/{rideBooking}', 'RidesController@update')->name('rides.update');
+
+
 
 
 
